@@ -272,6 +272,8 @@ app.post("/yes", (req, res) => {
 			},
 		];
 	}
+
+	res.send({ responseObject, conversationData });
 });
 app.listen(port, () => {
 	console.log(`at ${port}`);
