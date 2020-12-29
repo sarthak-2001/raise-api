@@ -210,6 +210,69 @@ app.post("/subcatissue", (req, res) => {
 	res.send({ responseObject, conversationData });
 });
 
+app.post("/yes", (req, res) => {
+	let conversationData = req.body.conversationData;
+	let previousIntent = conversationData.previousIntent;
+	let responseObject = [];
+	if (previousIntent === "issue") {
+		responseObject = [
+			{
+				Status: "Success",
+				StatusCode: 200,
+				Message: "Response fetched successfully",
+				Data: [
+					{
+						conditions: [
+							{
+								conditionType: "yes",
+								conditionValue: [],
+							},
+						],
+						replaceMentValues: [],
+					},
+				],
+			},
+		];
+	} else if (previousIntent === "category") {
+		responseObject = [
+			{
+				Status: "Success",
+				StatusCode: 200,
+				Message: "Response fetched successfully",
+				Data: [
+					{
+						conditions: [
+							{
+								conditionType: "yes",
+								conditionValue: [],
+							},
+						],
+						replaceMentValues: [],
+					},
+				],
+			},
+		];
+	} else if (previousIntent === "subcategory") {
+		responseObject = [
+			{
+				Status: "Success",
+				StatusCode: 200,
+				Message: "Response fetched successfully",
+				Data: [
+					{
+						conditions: [
+							{
+								conditionType: "yes",
+								conditionValue: [],
+							},
+						],
+						replaceMentValues: [],
+					},
+				],
+			},
+		];
+	}
+});
 app.listen(port, () => {
 	console.log(`at ${port}`);
 });
