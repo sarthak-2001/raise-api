@@ -10,6 +10,7 @@ app.use(express.urlencoded());
 app.post("/issue", (req, res) => {
 	console.log(req.body);
 	let conversationData = req.body.conversationData;
+	conversationData.previousIntent = conversationData.queryResult.intent.displayName;
 	console.log("temp");
 	if (conversationData.freeText !== "" && conversationData.freeText !== undefined) {
 		let userMsg = conversationData.freeText;
@@ -207,6 +208,8 @@ app.post("/subcatissue", (req, res) => {
 	console.log("trigger");
 	res.send({ responseObject, conversationData });
 });
+
+
 
 app.listen(port, () => {
 	console.log(`at ${port}`);
