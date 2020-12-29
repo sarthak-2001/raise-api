@@ -9,26 +9,84 @@ app.use(express.urlencoded());
 
 app.post("/issue", (req, res) => {
 	console.log(req.body);
-	// conversationData
+	let conversationData = req.body.conversationData;
 	console.log("temp");
-	responseObject = [
-		{
-			Status: "Success",
-			StatusCode: 200,
-			Message: "Response fetched successfully",
-			Data: [
-				{
-					conditions: [
-						{
-							conditionType: "issue",
-							conditionValue: [],
-						},
-					],
-					replaceMentValues: [],
-				},
-			],
-		},
-	];
+	if (conversationData.freeText !== "" || conversationData.freeText !== undefined) {
+		let userMsg = conversationData.freeText;
+		let category = conversationData.category;
+		let subcat = conversationData.subcat;
+		conversationData.freeText = conversationData.category = conversationData.subcat = "";
+		let issueSession = 0;
+		if (conversationData.issue) issueSession = conversationData.issue;
+
+		issueSession = issueSession + 1;
+		conversationData.issue = issueSession;
+		responseObject = [
+			{
+				Status: "Success",
+				StatusCode: 200,
+				Message: "Response fetched successfully",
+				Data: [
+					{
+						conditions: [
+							{
+								conditionType: "confirmation",
+								conditionValue: [1, 2, 3],
+							},
+						],
+						replaceMentValues: [
+							{
+								replaceKey: "$subcategory",
+								position: "message",
+
+								replaceIn: "message",
+								replaceValue: subcat, //
+							},
+							{
+								replaceKey: "$category",
+								position: "message",
+
+								replaceIn: "message",
+								replaceValue: category, //
+							},
+							{
+								replaceKey: "$usermsg",
+								position: "message",
+
+								replaceIn: "message",
+								replaceValue: userMsg, //
+							},
+							{
+								replaceKey: "$num",
+								position: "message",
+
+								replaceIn: "message",
+								replaceValue: issueSession, //
+							},
+						],
+					},
+				],
+			},
+		];
+	} else
+		responseObject = [
+			{
+				Status: "Success",
+				StatusCode: 200,
+				Message: "Response fetched successfully",
+				Data: [
+					{
+						conditions: [
+							{
+								conditionType: "issue",
+								conditionValue: [],
+							},
+						],
+						replaceMentValues: [],
+					},
+				],
+			},
+		];
 	console.log("trigger");
 	res.send({ responseObject });
 });
@@ -94,17 +152,18 @@ app.post("/catissue", (req, res) => {
 app.post("/subcatissue", (req, res) => {
 	let conversationData = req.body.conversationData;
 	let intentName = conversationData.queryResult.intent.displayName;
-    intentName = intentName.toLowerCase();
+	intentName = intentName.toLowerCase();
 	let category = conversationData.category;
 	let subcat = conversationData.queryResult.parameters.fields[intentName].listValue.values[0].stringValue;
+	conversationData.subcat = subcat;
 	// let issueSession = 0;
 	// if (conversationData.issue) issueSession = conversationData.issue;
 
-    // issueSession = issueSession+1;
-    // conversationData.category = "";
+	// issueSession = issueSession+1;
+	// conversationData.category = "";
 	// conversationData.issue = issueSession;
-	conversationData.isFreeText=true;
-	conversationData.intentFromAPI='issue'
+	conversationData.isFreeText = true;
+	conversationData.intentFromAPI = "issue";
 	responseObject = [
 		{
 			Status: "Success",
@@ -119,28 +178,28 @@ app.post("/subcatissue", (req, res) => {
 						},
 					],
 					replaceMentValues: [
-                        {
-                            replaceKey: "$subcategory",
-                            position: "message",
+						{
+							replaceKey: "$subcategory",
+							position: "message",
 
-                            replaceIn: "message",
-                            replaceValue: subcat, //
-                        },
-                        // {
-                        //     replaceKey: "$category",
-                        //     position: "message",
+							replaceIn: "message",
+							replaceValue: subcat, //
+						},
+						// {
+						//     replaceKey: "$category",
+						//     position: "message",
 
-                        //     replaceIn: "message",
-                        //     replaceValue: category, //
-                        // },
-                        // {
-                        //     replaceKey: "$num",
-                        //     position: "message",
+						//     replaceIn: "message",
+						//     replaceValue: category, //
+						// },
+						// {
+						//     replaceKey: "$num",
+						//     position: "message",
 
-                        //     replaceIn: "message",
-                        //     replaceValue: issueSession, //
-                        // },
-                    ],
+						//     replaceIn: "message",
+						//     replaceValue: issueSession, //
+						// },
+					],
 				},
 			],
 		},
