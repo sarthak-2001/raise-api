@@ -97,12 +97,14 @@ app.post("/subcatissue", (req, res) => {
     intentName = intentName.toLowerCase();
 	let category = conversationData.category;
 	let subcat = conversationData.queryResult.parameters.fields[intentName].listValue.values[0].stringValue;
-	let issueSession = 0;
-	if (conversationData.issue) issueSession = conversationData.issue;
+	// let issueSession = 0;
+	// if (conversationData.issue) issueSession = conversationData.issue;
 
-    issueSession = issueSession+1;
-    conversationData.category = "";
-    conversationData.issue = issueSession;
+    // issueSession = issueSession+1;
+    // conversationData.category = "";
+	// conversationData.issue = issueSession;
+	conversationData.isFreeText=true;
+	conversationData.intentFromAPI='issue'
 	responseObject = [
 		{
 			Status: "Success",
@@ -124,20 +126,20 @@ app.post("/subcatissue", (req, res) => {
                             replaceIn: "message",
                             replaceValue: subcat, //
                         },
-                        {
-                            replaceKey: "$category",
-                            position: "message",
+                        // {
+                        //     replaceKey: "$category",
+                        //     position: "message",
 
-                            replaceIn: "message",
-                            replaceValue: category, //
-                        },
-                        {
-                            replaceKey: "$num",
-                            position: "message",
+                        //     replaceIn: "message",
+                        //     replaceValue: category, //
+                        // },
+                        // {
+                        //     replaceKey: "$num",
+                        //     position: "message",
 
-                            replaceIn: "message",
-                            replaceValue: issueSession, //
-                        },
+                        //     replaceIn: "message",
+                        //     replaceValue: issueSession, //
+                        // },
                     ],
 				},
 			],
