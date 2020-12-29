@@ -89,14 +89,14 @@ app.post("/issue", (req, res) => {
 			},
 		];
 	console.log("trigger");
-	res.send({ responseObject,conversationData });
+	res.send({ responseObject, conversationData });
 });
 
 app.post("/catissue", (req, res) => {
 	console.log("herereererere");
 	let conversationData = req.body.conversationData;
 	let intentName = conversationData.queryResult.intent.displayName;
-
+	conversationData.previousIntent = intentName;
 	console.log(conversationData);
 	let category = conversationData.queryResult.parameters.fields[intentName].listValue.values[0].stringValue;
 	conversationData.category = category;
@@ -154,6 +154,7 @@ app.post("/subcatissue", (req, res) => {
 	let conversationData = req.body.conversationData;
 	let intentName = conversationData.queryResult.intent.displayName;
 	intentName = intentName.toLowerCase();
+	conversationData.previousIntent = intentName;
 	let category = conversationData.category;
 	let subcat = conversationData.queryResult.parameters.fields[intentName].listValue.values[0].stringValue;
 	conversationData.subcat = subcat;
@@ -208,8 +209,6 @@ app.post("/subcatissue", (req, res) => {
 	console.log("trigger");
 	res.send({ responseObject, conversationData });
 });
-
-
 
 app.listen(port, () => {
 	console.log(`at ${port}`);
