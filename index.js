@@ -88,7 +88,7 @@ app.post("/issue", (req, res) => {
 			},
 		];
 	console.log("trigger");
-	res.send({ responseObject });
+	res.send({ responseObject,conversationData });
 });
 
 app.post("/catissue", (req, res) => {
