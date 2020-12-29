@@ -11,7 +11,7 @@ app.post("/issue", (req, res) => {
 	console.log(req.body);
 	let conversationData = req.body.conversationData;
 	console.log("temp");
-	if (conversationData.freeText !== "" || conversationData.freeText !== undefined) {
+	if (conversationData.freeText !== "" && conversationData.freeText !== undefined) {
 		let userMsg = conversationData.freeText;
 		let category = conversationData.category;
 		let subcat = conversationData.subcat;
