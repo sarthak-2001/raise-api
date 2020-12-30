@@ -224,7 +224,7 @@ app.post("/yes", (req, res) => {
 					{
 						conditions: [
 							{
-								conditionType: "yes",
+								conditionType: "yes1",
 								conditionValue: [],
 							},
 						],
