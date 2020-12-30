@@ -164,7 +164,8 @@ app.post("/subcatissue", (req, res) => {
 	// issueSession = issueSession+1;
 	// conversationData.category = "";
 	// conversationData.issue = issueSession;
-	conversationData.isFreeText = true;
+	
+	// conversationData.isFreeText = true;
 	conversationData.intentFromAPI = "issue";
 	responseObject = [
 		{
