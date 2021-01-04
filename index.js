@@ -7,11 +7,41 @@ let port = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded());
 
+app.post('/name',(req,res)=>{
+	let conversationData = req.body.conversationData;
+	conversationData.previousIntent = conversationData.queryResult.intent.displayName;
+	responseObject = [
+		{
+			Status: "Success",
+			StatusCode: 200,
+			Message: "Response fetched successfully",
+			Data: [
+				{
+					conditions: [
+						{
+							conditionType: "noAuth",
+							conditionValue: [],
+						},
+					],
+					replaceMentValues: [
+					],
+				},
+			],
+		},
+	];
+	return ({conversationData, responseObject});
+})
+
 app.post("/issue", (req, res) => {
 	console.log(req.body);
 	let conversationData = req.body.conversationData;
 	conversationData.previousIntent = conversationData.queryResult.intent.displayName;
 	console.log("temp");
+	let intentName = conversationData.queryResult.intent.displayName;
+	intentName = intentName.toLowerCase();
+	let entityName = conversationData.queryResult.parameters.fields[intentName].listValue.values[0].stringValue;
+	console.log(entityName);
+	// conversationData.previousIntent = intentName;
 	if (conversationData.freeText !== "" && conversationData.freeText !== undefined) {
 		let userMsg = conversationData.freeText;
 		let category = conversationData.category;
@@ -164,7 +194,7 @@ app.post("/subcatissue", (req, res) => {
 	// issueSession = issueSession+1;
 	// conversationData.category = "";
 	// conversationData.issue = issueSession;
-	
+
 	// conversationData.isFreeText = true;
 	conversationData.intentFromAPI = "issue";
 	responseObject = [
@@ -276,6 +306,7 @@ app.post("/yes", (req, res) => {
 
 	res.send({ responseObject, conversationData });
 });
+
 app.listen(port, () => {
 	console.log(`at ${port}`);
 });
