@@ -7,7 +7,7 @@ let port = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded());
 
-app.post('/name',(req,res)=>{
+app.post("/name", (req, res) => {
 	let conversationData = req.body.conversationData;
 	conversationData.previousIntent = conversationData.queryResult.intent.displayName;
 	responseObject = [
@@ -23,14 +23,13 @@ app.post('/name',(req,res)=>{
 							conditionValue: [],
 						},
 					],
-					replaceMentValues: [
-					],
+					replaceMentValues: [],
 				},
 			],
 		},
 	];
-	return ({conversationData, responseObject});
-})
+	res.send({ conversationData, responseObject });
+});
 
 app.post("/issue", (req, res) => {
 	console.log(req.body);
